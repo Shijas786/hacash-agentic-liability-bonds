@@ -1,0 +1,54 @@
+{
+  "schema_version": "0.1.0",
+  "project": {
+    "name": "CURATE",
+    "ticker": "CRT",
+    "category": "AI Curation & Oracle Registry",
+    "description": "A PoW-backed economic bonding protocol for AI data providers and oracle APIs, ensuring verifiable data feeds via slashing.",
+    "website": "https://curate.it",
+    "x": "https://x.com/curate_oracles",
+    "contact": "founder@curate.it"
+  },
+  "asset": {
+    "type": "HYBRID",
+    "total_supply": 6710886400,
+    "decimals": 8,
+    "unit_name": "CRT",
+    "utility_summary": "Verification curation credits used to stake on data accuracy, query historical slashing logs, and reward oracle dispute judges."
+  },
+  "stack": {
+    "total_hacd_lots": 400,
+    "hacd_per_lot": 1,
+    "units_per_hacd_lot": 16777216,
+    "stack_cost_hac_per_hacd": 75,
+    "network_fee_required": true,
+    "designated_address_required": false,
+    "designated_address": "",
+    "first_phase_hacd_lots": 40,
+    "public_phase_hacd_lots": 360,
+    "removal_effect": "burn"
+  },
+  "launch": {
+    "target_date_utc": "2026-08-15",
+    "launchpad_url": "https://hacd.it/launchpad/curate",
+    "phase_model": "public",
+    "min_hacd_per_participant": 1,
+    "max_hacd_per_participant": 10,
+    "status": "draft"
+  },
+  "copy": {
+    "headline": "Lock Data Fraud. Escrow Oracle Liability.",
+    "subheadline": "Verifiable AI oracle feeds backed by Hacash Layer-1 collateral.",
+    "short_description": "CURATE links physical PoW assets (HACD) and HAC collateral to create economic firewalls for AI data curators. Slashed oracles forfeit collateral to the Penalty Pool.",
+    "risk_disclosure": "Staking collateral involves slashing risk. If the oracle consensus flags your node for false data inputs, your CURATE Passport SFT is burned and your 75 HAC collateral is locked in the Penalty Pool for 120 days."
+  },
+  "review": {
+    "issuer_confirmed": true,
+    "hacd_labs_reviewed": true,
+    "legal_review_required": true,
+    "notes": [
+      "Supply matches 400 lots * 16,777,216 CRT = 6,710,886,400 CRT total.",
+      "Total formation cost is 400 * 75 = 30,000 HAC locked in escrow."
+    ]
+  }
+}
