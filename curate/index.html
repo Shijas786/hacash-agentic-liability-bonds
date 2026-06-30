@@ -1688,23 +1688,38 @@ const walletData = {
 };
 
 async function fetchOnChainBalance(address) {
+  const targetUrl = `http://nodeapi.hacash.org/query/balance?address=${address}&diamonds=true&unit=mei`;
+  let data = null;
+  
+  // 1. Try direct fetch first
   try {
-    const res = await fetch(`http://nodeapi.hacash.org/query/balance?address=${address}&diamonds=true&unit=mei`);
-    const data = await res.json();
-    if (data && data.ret === 0 && data.list && data.list[0]) {
-      const balance = data.list[0];
-      walletData.hac = parseFloat(balance.hacash) || 0.0;
-      
-      // Parse diamonds (returned as concatenated string of names or comma list)
-      if (balance.diamonds) {
-        walletData.hacds = balance.diamonds.match(/.{1,6}/g) || [];
-      } else {
-        walletData.hacds = [];
+    const res = await fetch(targetUrl);
+    data = await res.json();
+  } catch (directErr) {
+    console.warn("Direct fetch failed (likely CORS on local file), retrying via AllOrigins proxy...", directErr);
+    // 2. Retry via public AllOrigins CORS proxy wrapper
+    try {
+      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+      const res = await fetch(proxyUrl);
+      const wrapper = await res.json();
+      if (wrapper && wrapper.contents) {
+        data = JSON.parse(wrapper.contents);
       }
-      return true;
+    } catch (proxyErr) {
+      console.error("CORS proxy fetch also failed:", proxyErr);
     }
-  } catch (err) {
-    console.error("Failed to query on-chain balance:", err);
+  }
+
+  // Parse resulting balance data if query succeeded
+  if (data && data.ret === 0 && data.list && data.list[0]) {
+    const balance = data.list[0];
+    walletData.hac = parseFloat(balance.hacash) || 0.0;
+    if (balance.diamonds) {
+      walletData.hacds = balance.diamonds.match(/.{1,6}/g) || [];
+    } else {
+      walletData.hacds = [];
+    }
+    return true;
   }
   return false;
 }
@@ -1737,6 +1752,8 @@ async function connectWallet() {
           walletConnected = true;
           walletMode = 'real-sub';
           walletData.address = accounts[0].address;
+          walletData.hac = 0.00; // Reset mock values
+          walletData.hacds = [];
           
           btn.textContent = 'Loading Chain State...';
           await fetchOnChainBalance(walletData.address);
@@ -1760,6 +1777,8 @@ async function connectWallet() {
         walletConnected = true;
         walletMode = 'real-evm';
         walletData.address = accounts[0];
+        walletData.hac = 0.00; // Reset mock values
+        walletData.hacds = [];
         
         btn.textContent = 'Loading Chain State...';
         await fetchOnChainBalance(walletData.address);
@@ -1775,7 +1794,11 @@ async function connectWallet() {
 
   // 3. Fallback to Simulated Mock Wallet if no browser extension is injected/active
   walletConnected = true;
-  btn.textContent = 'H1a8p...9xZq (185 HAC)';
+  walletMode = 'mock';
+  walletData.address = 'H1a8pXyZq818bN28sdHj81c81vB';
+  walletData.hac = 250.00;
+  walletData.hacds = ['CURATE', 'SOULXD'];
+  btn.textContent = 'H1a8p...9xZq (250 HAC)';
   btn.style.borderColor = 'rgba(255, 255, 255, 0.4)';
 }
 
