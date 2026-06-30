@@ -1,0 +1,144 @@
+{
+  "schema_version": "1.0",
+  "generated_by": "HACD Incubator AI Issuance Skill",
+  "generated_at": "2026-06-29",
+  "validator_status": "PASS",
+
+  "project": {
+    "name": "PROOFD",
+    "ticker": "PRF",
+    "category": "AI Agent Identity Infrastructure",
+    "description": "PoW-Backed AI Agent Identity Network — gives every AI agent a provably scarce, unforgeable, on-chain identity using HACD as the identity container.",
+    "website": "https://proofd.id",
+    "x_handle": "@proofd_id",
+    "discord": "discord.gg/proofd",
+    "launchpad_url": "https://hacd.it/launchpad"
+  },
+
+  "asset": {
+    "type": "HYBRID",
+    "layers": [
+      {
+        "layer": "SFT",
+        "name": "PROOFD Passport",
+        "per_lot": 1,
+        "transferable": false,
+        "burned_on_stack_removal": true,
+        "description": "AI agent on-chain identity document. One per HACD lot. Non-transferable while stacked."
+      },
+      {
+        "layer": "FT",
+        "ticker": "PRF",
+        "name": "PROOFD Utility Token",
+        "per_lot": 16777216,
+        "transferable": true,
+        "burned_on_stack_removal": false,
+        "description": "Fungible utility token for registry access, reputation staking, and governance."
+      }
+    ]
+  },
+
+  "issuance": {
+    "total_hacd_lots": 500,
+    "units_per_hacd_lot": 16777216,
+    "total_prf_supply": 8388608000,
+    "stack_cost_hac_per_hacd": 50,
+    "total_formation_cost_hac": 25000,
+    "minimum_backing_reference": "1 HACD + 50 HAC + network fee",
+    "all_lots_equal": true,
+    "removing_stack_effect": "burns_SFT_passport_revokes_identity"
+  },
+
+  "phases": [
+    {
+      "phase": "partner_batch",
+      "hacd_lots": 50,
+      "access": "application",
+      "description": "50 HACD lots reserved for founding AI agent projects. Apply via hacd.it/incubator partner form.",
+      "opens": "TBD [Needs issuer confirmation]"
+    },
+    {
+      "phase": "public_batch",
+      "hacd_lots": 450,
+      "access": "open",
+      "description": "450 HACD lots open to all at hacd.it/launchpad, first-come-first-served.",
+      "opens": "TBD [Needs issuer confirmation]"
+    }
+  ],
+
+  "phase_lot_check": {
+    "partner_lots": 50,
+    "public_lots": 450,
+    "total": 500,
+    "matches_total_hacd_lots": true
+  },
+
+  "supply_math_check": {
+    "formula": "total_hacd_lots × units_per_hacd_lot",
+    "calculation": "500 × 16777216",
+    "result": 8388608000,
+    "matches_declared_supply": true
+  },
+
+  "formation_cost_check": {
+    "formula": "total_hacd_lots × stack_cost_hac_per_hacd",
+    "calculation": "500 × 50",
+    "result_hac": 25000,
+    "matches_declared_cost": true
+  },
+
+  "distribution": {
+    "team_reserve_pct": 0,
+    "vc_allocation_pct": 0,
+    "public_formation_pct": 100,
+    "note": "All PRF enters circulation exclusively through Stack formation. No pre-mine."
+  },
+
+  "utility": {
+    "sft_passport": [
+      "on-chain AI agent identity proof",
+      "PROOFD Agent Registry listing",
+      "SDK integration access",
+      "governance voting rights",
+      "partner batch: founding member status"
+    ],
+    "prf_token": [
+      "reputation staking in registry",
+      "premium registry feature access",
+      "governance voting on registry parameters"
+    ],
+    "utility_at_launch": ["on-chain identity proof", "registry listing"],
+    "utility_roadmap": ["SDK", "reputation staking", "cross-chain verification", "governance"]
+  },
+
+  "risk_disclosures": [
+    "PRF is a utility token, not a security or financial instrument.",
+    "The on-chain formation reference (50 HAC per HACD) is not a guaranteed price floor or redemption value. Use the term 'formation reference' only.",
+    "Registry SDK and cross-chain verification are roadmap items and may be delayed or not delivered.",
+    "HACD Labs does not endorse or guarantee any utility claims made by the PROOFD team.",
+    "Removing the stack permanently destroys the PROOFD Passport SFT. This action is irreversible.",
+    "HAC price is volatile. The USD equivalent of the 50 HAC stack cost will fluctuate."
+  ],
+
+  "items_needs_confirmation": [
+    "PRF utility token distribution allocation at launch vs. roadmap (team to confirm)",
+    "Agent metadata JSON schema (off-chain standard, to be finalised before launch)",
+    "Exact launch dates for partner batch and public batch",
+    "List of 50 partner founding AI agent projects for Launchpad page"
+  ],
+
+  "validator_checks": {
+    "supply_math": "PASS",
+    "formation_cost_math": "PASS",
+    "phase_lot_sum": "PASS",
+    "no_guaranteed_return_language": "PASS",
+    "no_unverifiable_team_claims": "PASS",
+    "ticker_uniqueness": "PASS — PRF not found in Launchpad index at time of generation",
+    "errors": 0,
+    "warnings": 2,
+    "warning_details": [
+      "PRF utility distribution allocation needs issuer confirmation",
+      "Agent metadata schema not yet finalised"
+    ]
+  }
+}
